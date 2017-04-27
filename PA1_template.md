@@ -30,8 +30,8 @@ qplot(stepsByDay,xlab='Total steps per day', ylab='Frequency (binwith 500)', bin
 
 ![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
-* Mean: 1.0766189\times 10^{4}
-* Median: 10765
+- Mean: 1.0766189\times 10^{4}
+- Median: 10765
 
 
 ## What is the average daily activity pattern?

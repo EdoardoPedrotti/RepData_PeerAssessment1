@@ -28,8 +28,8 @@ qplot(stepsByDay,xlab='Total steps per day', ylab='Frequency (binwith 500)', bin
 
 ```
 
-* Mean: `r meanStepsByDay`
-* Median: `r meadianStepsByDay`
+- Mean: `r meanStepsByDay`
+- Median: `r meadianStepsByDay`
 
 
 ## What is the average daily activity pattern?
