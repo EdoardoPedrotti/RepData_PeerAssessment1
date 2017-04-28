@@ -7,6 +7,7 @@ output:
 ```{r libraries}
 library(ggplot2)
 library(Hmisc)
+options(scipen=999)
 ```
 
 ## Loading and preprocessing the data
@@ -59,7 +60,7 @@ nas = sum(!complete.cases(data))
 The number of row with NAS is `r nas`
 
 ```{r}
-imputedData = data
+imputedData = data 
 imputedData$steps = impute(imputedData$steps, fun=mean)
 
 
@@ -70,12 +71,23 @@ imputerdMeanStepsByDay = mean(imputedStepsByDay, na.rm = T)
 
 imputedMeadianStepsByDay = median(imputedStepsByDay, na.rm = T)
 
+meanDiff = imputerdMeanStepsByDay-meanStepsByDay
+
+medianDiff = imputedMeadianStepsByDay - meadianStepsByDay
+
+totalDiff = sum(imputedData$steps) - sum(data$steps, na.rm=T)  
+  
+
 qplot(imputedStepsByDay,xlab='Total steps per day', ylab='Frequency (binwith 500)', binwidth=500)
 
 ```  
 
 - Mean: `r imputerdMeanStepsByDay`
 - Median: `r imputerdMeanStepsByDay`
+
+The difference between the mean of imputed and original data is `r meanDiff`  
+The difference between the meadian of nimputed and original data is `r medianDiff`  
+The difference of the sum of total steps from imputed and original data is `r totalDiff`  
 
 
 ## Are there differences in activity patterns between weekdays and weekends?

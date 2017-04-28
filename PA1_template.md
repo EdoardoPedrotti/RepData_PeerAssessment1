@@ -28,6 +28,10 @@ library(Hmisc)
 ##     format.pval, round.POSIXt, trunc.POSIXt, units
 ```
 
+```r
+options(scipen=999)
+```
+
 ## Loading and preprocessing the data
 
 
@@ -54,7 +58,7 @@ qplot(stepsByDay,xlab='Total steps per day', ylab='Frequency (binwith 500)', bin
 
 ![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
-- Mean: 1.0766189\times 10^{4}
+- Mean: 10766.1886792
 - Median: 10765
 
 
@@ -96,13 +100,24 @@ imputerdMeanStepsByDay = mean(imputedStepsByDay, na.rm = T)
 
 imputedMeadianStepsByDay = median(imputedStepsByDay, na.rm = T)
 
+meanDiff = imputerdMeanStepsByDay-meanStepsByDay
+
+medianDiff = imputedMeadianStepsByDay - meadianStepsByDay
+
+totalDiff = sum(imputedData$steps) - sum(data$steps, na.rm=T)  
+  
+
 qplot(imputedStepsByDay,xlab='Total steps per day', ylab='Frequency (binwith 500)', binwidth=500)
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
-- Mean: 1.0766189\times 10^{4}
-- Median: 1.0766189\times 10^{4}
+- Mean: 10766.1886792
+- Median: 10766.1886792
+
+The difference between the mean of imputed and original data is 0  
+The difference between the meadian of nimputed and original data is 1.1886792  
+The difference of the sum of total steps from imputed and original data is 86129.509434  
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
