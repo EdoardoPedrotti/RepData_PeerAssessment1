@@ -6,6 +6,7 @@ output:
 ---
 ```{r libraries}
 library(ggplot2)
+library(Hmisc)
 ```
 
 ## Loading and preprocessing the data
@@ -41,13 +42,55 @@ ggplot(data = stepsByInterval, aes(x=interval, y=steps)) + geom_line() + xlab("I
 
 max = which.max(stepsByInterval$steps)
 
-stepsByInterval[max,1]
+
 
 ```
 The 5-minute interval that contains, on average across all the days in the dataset, the maximum number of steps is `r stepsByInterval[max,1]`
 
 ## Imputing missing values
 
+```{r}
+
+nas = sum(!complete.cases(data))
+
+
+```
+
+The number of row with NAS is `r nas`
+
+```{r}
+imputedData = data
+imputedData$steps = impute(imputedData$steps, fun=mean)
+
+
+
+imputedStepsByDay = tapply(imputedData$steps, imputedData$date, sum)
+
+imputerdMeanStepsByDay = mean(imputedStepsByDay, na.rm = T)
+
+imputedMeadianStepsByDay = median(imputedStepsByDay, na.rm = T)
+
+qplot(imputedStepsByDay,xlab='Total steps per day', ylab='Frequency (binwith 500)', binwidth=500)
+
+```  
+
+- Mean: `r imputerdMeanStepsByDay`
+- Median: `r imputerdMeanStepsByDay`
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r}
+
+
+imputedData$isWeekDay = as.factor(ifelse(as.POSIXlt(imputedData$date)$wd %in% seq(1,5), "weekday", "weekend"))
+
+stepsByIntervalImputed = aggregate(steps ~ interval + isWeekDay, imputedData, mean)
+
+ggplot(data = stepsByIntervalImputed, aes(x=interval, y=steps)) + 
+    geom_line() + 
+    facet_grid(isWeekDay ~ .) +
+    xlab("interval") + 
+    ylab("avarage  steps")
+
+```
